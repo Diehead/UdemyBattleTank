@@ -3,6 +3,7 @@
 #include "Classes/Kismet/GameplayStatics.h"
 #include "Classes/Components/StaticMeshComponent.h"
 #include "TankBarrelSMComponent.h"
+#include "TankTurretSMComponent.h"
 
 
 // Sets default values for this component's properties
@@ -46,15 +47,16 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	FVector outVelocity;
 	FVector barrelSocketLocation = Barrel->GetSocketLocation("ProjectileSocket");
 
-	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(this, outVelocity, barrelSocketLocation, HitLocation, LaunchSpeed);
+	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(this, outVelocity, barrelSocketLocation, HitLocation, LaunchSpeed, 
+	false, 0, 0, ESuggestProjVelocityTraceOption::DoNotTrace);
 
 	if (bHaveAimSolution)
 	{
 		FVector AimDirection = outVelocity.GetSafeNormal();
-		UE_LOG(LogTemp, Warning, TEXT("Aiming at %s"), *AimDirection.ToString());
+	//	UE_LOG(LogTemp, Warning, TEXT("Aiming at %s"), *AimDirection.ToString());
 		
 		MoveBarrelTowards(AimDirection);
-			}
+	}
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
@@ -62,10 +64,19 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	FRotator BarrelRotation = Barrel->GetForwardVector().Rotation();
 	FRotator AimAsRotator = AimDirection.Rotation();
 	FRotator DeltaRotation = AimAsRotator - BarrelRotation;
-	Barrel->Elevate(10);
+	
+
+	//UE_LOG(LogTemp, Warning, TEXT("DeltaRotation.Pitch = %f"), DeltaRotation.Pitch);
+	Barrel->Elevate(DeltaRotation.Pitch);
+	Turret->Rotate(DeltaRotation.Yaw);
 }
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrelSMComponent* BarrelToSet)
 {
 	Barrel = BarrelToSet;
+}
+
+void UTankAimingComponent::SetTurretReference(UTankTurretSMComponent* TurretToSet)
+{
+	Turret = TurretToSet;
 }

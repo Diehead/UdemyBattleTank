@@ -1,8 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Tank.h"
+#include "TankAimingComponent.h"
 #include "TankBarrelSMComponent.h"
-
+#include "TankTurretSMComponent.h"
+#include "Projectile.h"
+#include "Engine/World.h"
+#include "Engine/StaticMeshSocket.h"
 
 // Sets default values
 ATank::ATank()
@@ -40,4 +44,27 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void ATank::SetBarrelReference(UTankBarrelSMComponent* BarrelToSet)
 {
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
+	Barrel = BarrelToSet;
+}
+
+void ATank::SetTurretReference(UTankTurretSMComponent* TurretToSet)
+{
+	TankAimingComponent->SetTurretReference(TurretToSet);
+}
+
+void ATank::Fire()
+{
+	if (!Barrel)
+	{
+		return;
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("Fire"));	
+
+	GetWorld()->SpawnActor<AProjectile>(Projectile, Barrel->GetSocketLocation("ProjectileSocket"), 
+					Barrel->GetSocketRotation("ProjectileSocket"));
+
+	
+
+
 }

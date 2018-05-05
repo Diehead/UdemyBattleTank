@@ -8,6 +8,7 @@
 
 
 class UTankBarrelSMComponent;
+class UTankTurretSMComponent;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UDEMY4BATTLETANK_API UTankAimingComponent : public UActorComponent
@@ -23,6 +24,7 @@ public:
 
 	void AimAt(FVector HitLocation, float LaunchSpeed);
 	void SetBarrelReference(UTankBarrelSMComponent* BarrelToSet);
+	void SetTurretReference(UTankTurretSMComponent* TurretToSet);
 
 protected:
 	// Called when the game starts
@@ -33,4 +35,6 @@ private:
 
 private:
 	UTankBarrelSMComponent* Barrel;
+	UTankTurretSMComponent* Turret;
+
 };
