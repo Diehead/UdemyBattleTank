@@ -7,6 +7,7 @@
 #include "Tank.generated.h"
 
 class UTankBarrelSMComponent;
+class UTankNavMovementComponent;
 class UTankAimingComponent;
 class UTankTurretSMComponent;
 class AProjectile;
@@ -39,13 +40,19 @@ public:
 
 public:
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 100000;
+	float LaunchSpeed = 4000.f;
 
 	UPROPERTY(EditAnywhere, Category = Setup)
-	TSubclassOf<AProjectile> Projectile;
+	TSubclassOf<AProjectile> ProjectileBP;
+
+/*protected:
+	UPROPERTY(BlueprintReadOnly)
+	UTankNavMovementComponent* TankNavMovementComponent = nullptr;*/
 
 private:
 	UTankAimingComponent* TankAimingComponent = nullptr;
 	UTankBarrelSMComponent* Barrel;
-	
+
+	double ReloadTimeInSeconds = 3;
+	double LastFireTime = 0;
 };

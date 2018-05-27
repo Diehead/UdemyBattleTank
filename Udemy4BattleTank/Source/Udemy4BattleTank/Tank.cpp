@@ -2,6 +2,7 @@
 
 #include "Tank.h"
 #include "TankAimingComponent.h"
+#include "TankNavMovementComponent.h"
 #include "TankBarrelSMComponent.h"
 #include "TankTurretSMComponent.h"
 #include "Projectile.h"
@@ -16,6 +17,9 @@ ATank::ATank()
 
 
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Tank Aiming Component"));
+//	TankNavMovementComponent = CreateDefaultSubobject<UTankNavMovementComponent>(FName("Tank Nav Movement Component"));
+
+	
 }
 
 // Called when the game starts or when spawned
@@ -59,12 +63,13 @@ void ATank::Fire()
 		return;
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("Fire"));	
-
-	GetWorld()->SpawnActor<AProjectile>(Projectile, Barrel->GetSocketLocation("ProjectileSocket"), 
-					Barrel->GetSocketRotation("ProjectileSocket"));
-
-	
-
-
+	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
+	if (Barrel && isReloaded)
+	{
+		AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBP, Barrel->GetSocketLocation("ProjectileSocket"),
+			Barrel->GetSocketRotation("ProjectileSocket"));
+		Projectile->LaunchProjectile(LaunchSpeed);
+		LastFireTime = FPlatformTime::Seconds();
+		isReloaded = false;
+	}
 }

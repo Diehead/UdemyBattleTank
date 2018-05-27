@@ -19,7 +19,7 @@ public:
 	
 
 public:
-	UPROPERTY(EditAnywhere)
-	float MaxDegreesPerSecond = 5.f;
+	UPROPERTY(EditDefaultsOnly)
+	float MaxDegreesPerSecond = 9.f;
 	
 };
