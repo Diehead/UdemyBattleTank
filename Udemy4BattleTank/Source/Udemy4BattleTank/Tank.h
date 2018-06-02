@@ -7,7 +7,6 @@
 #include "Tank.generated.h"
 
 class UTankBarrelSMComponent;
-class UTankNavMovementComponent;
 class UTankAimingComponent;
 class UTankTurretSMComponent;
 class AProjectile;
@@ -45,12 +44,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBP;
 
-/*protected:
+protected:
 	UPROPERTY(BlueprintReadOnly)
-	UTankNavMovementComponent* TankNavMovementComponent = nullptr;*/
+	UTankAimingComponent* TankAimingComponent = nullptr;
 
 private:
-	UTankAimingComponent* TankAimingComponent = nullptr;
 	UTankBarrelSMComponent* Barrel;
 
 	double ReloadTimeInSeconds = 3;
