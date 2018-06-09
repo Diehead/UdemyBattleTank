@@ -22,20 +22,19 @@ public:
 
 	void AimAt(FVector HitLocation);
 	
-	UFUNCTION(BlueprintCallable, Category = Setup)
+	/*UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UTankBarrelSMComponent* BarrelToSet);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetTurretReference(UTankTurretSMComponent* TurretToSet);
+	void SetTurretReference(UTankTurretSMComponent* TurretToSet);*/
+
+	
+	
+	/*UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetAimingComponent(UTankAimingComponent* TankAimingComponentToSet);*/
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void Fire();
-
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 public:
 	UPROPERTY(EditAnywhere, Category = Firing)

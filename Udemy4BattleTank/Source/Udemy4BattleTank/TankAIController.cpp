@@ -21,7 +21,7 @@ ATank* ATankAIController::GetPlayerTank() const
 	ATank* playerTank = nullptr;
 	APawn* playerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
 	
-	if (playerPawn)
+	if (ensure(playerPawn))
 	{
 		playerTank = Cast<ATank>(playerPawn);
 		UE_LOG(LogTemp, Warning, TEXT("AI: Plater Tank pawn name=%s"), *playerTank->GetName());
@@ -38,7 +38,7 @@ ATank* ATankAIController::GetControlledTank() const
 	ATank* tank = nullptr;
 	
 	APawn* pawn = GetPawn();
-	if (pawn)
+	if (ensure(pawn))
 	{
 		tank = Cast<ATank>(pawn);
 	}
@@ -50,12 +50,12 @@ void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (!ControlledTank)
+	if (!ensure(ControlledTank))
 	{
 		return;
 	}
 
-	if (PlayerTank)
+	if (ensure(PlayerTank))
 	{
 		
 		MoveToActor(PlayerTank, AcceptanceRadius);

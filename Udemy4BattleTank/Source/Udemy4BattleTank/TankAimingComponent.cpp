@@ -39,7 +39,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
 	//UE_LOG(LogTemp, Warning, TEXT("Tank aiming at %s"), *HitLocation.ToString())
 	
-	if (!Barrel)
+	if (!ensure(Barrel))
 	{
 		return;
 	}
@@ -50,7 +50,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(this, outVelocity, barrelSocketLocation, HitLocation, LaunchSpeed, 
 	false, 0, 0, ESuggestProjVelocityTraceOption::DoNotTrace);
 
-	if (bHaveAimSolution)
+	if (ensure(bHaveAimSolution))
 	{
 		FVector AimDirection = outVelocity.GetSafeNormal();
 	//	UE_LOG(LogTemp, Warning, TEXT("Aiming at %s"), *AimDirection.ToString());
@@ -71,12 +71,18 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	Turret->Rotate(DeltaRotation.Yaw);
 }
 
-void UTankAimingComponent::SetBarrelReference(UTankBarrelSMComponent* BarrelToSet)
+/*void UTankAimingComponent::SetBarrelReference(UTankBarrelSMComponent* BarrelToSet)
 {
 	Barrel = BarrelToSet;
 }
 
 void UTankAimingComponent::SetTurretReference(UTankTurretSMComponent* TurretToSet)
 {
+	Turret = TurretToSet;
+}*/
+
+void UTankAimingComponent::Initialize(UTankBarrelSMComponent* BarrelToSet, UTankTurretSMComponent* TurretToSet)
+{
+	Barrel = BarrelToSet;
 	Turret = TurretToSet;
 }

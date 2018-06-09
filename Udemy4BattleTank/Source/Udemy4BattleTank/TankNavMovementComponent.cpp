@@ -13,13 +13,13 @@ void UTankNavMovementComponent::IntendMoveForward(float value)
 
 void UTankNavMovementComponent::Initialize(UTankTrackSMComponent* LeftTrackToSet, UTankTrackSMComponent* RightTrackToSet)
 {
-	if (!LeftTrackToSet || !RightTrackToSet) { return; }
 	LeftTrack = LeftTrackToSet;
 	RightTrack = RightTrackToSet;
 }
 
 void UTankNavMovementComponent::IntendTurnRight(float value)
 {
+	if (!ensure(LeftTrack && RightTrack)) { return; }
 	LeftTrack->SetThrottle(value);
 	RightTrack->SetThrottle(-value);
 }

@@ -4,6 +4,7 @@
 #include "Engine/World.h"
 #include "Tank.h"
 #include "Camera/PlayerCameraManager.h"
+#include "TankAimingComponent.h"
 
 
 void ATankPlayerController::BeginPlay()
@@ -11,6 +12,14 @@ void ATankPlayerController::BeginPlay()
 	Super::BeginPlay();
 
 	ControlledTank = GetControlledTank();
+	
+	UTankAimingComponent* aimingRef = ControlledTank->FindComponentByClass<UTankAimingComponent>();
+	if (ensure(aimingRef))
+	{
+		FoundAimingComponent(aimingRef);
+	}
+
+	
 
 }
 
@@ -20,7 +29,7 @@ ATank* ATankPlayerController::GetControlledTank() const
 	ATank* tank = nullptr;
 
 	APawn* ControlledPawn = GetPawn();
-	if (ControlledPawn)
+	if (ensure(ControlledPawn))
 	{
 		tank = Cast<ATank>(ControlledPawn);
 		UE_LOG(LogTemp, Warning, TEXT("Tank pawn name=%s"), *ControlledPawn->GetName()); // Log,Warning,Error
@@ -42,7 +51,7 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!ControlledTank)
+	if (!ensure(ControlledTank))
 	{
 		return;
 	}
