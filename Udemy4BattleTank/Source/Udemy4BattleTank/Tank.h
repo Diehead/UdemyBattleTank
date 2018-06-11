@@ -22,6 +22,8 @@ public:
 
 	void AimAt(FVector HitLocation);
 	
+
+	virtual void BeginPlay() override;
 	/*UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UTankBarrelSMComponent* BarrelToSet);
 
