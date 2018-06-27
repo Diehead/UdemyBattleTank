@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAIController.h"
-#include "Tank.h"
+#include "TankAimingComponent.h"
 #include "Engine/World.h"
 
 
@@ -14,46 +14,35 @@ void ATankAIController::BeginPlay()
 
 	ControlledTank = GetControlledTank();
 	PlayerTank = GetPlayerTank();
+
+	AimingComponent = ControlledTank->FindComponentByClass<UTankAimingComponent>();
 }
 
-ATank* ATankAIController::GetPlayerTank() const
+APawn* ATankAIController::GetPlayerTank() const
 {
-	ATank* playerTank = nullptr;
 	APawn* playerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
-	
-	if (ensure(playerPawn))
-	{
-		playerTank = Cast<ATank>(playerPawn);
-		UE_LOG(LogTemp, Warning, TEXT("AI: Plater Tank pawn name=%s"), *playerTank->GetName());
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("AI: Plater Tank NOT FOUND"));
-	}
-	return playerTank;
+		
+	return playerPawn;
 }
 
-ATank* ATankAIController::GetControlledTank() const
+APawn* ATankAIController::GetControlledTank() const
 {
-	ATank* tank = nullptr;
-	
 	APawn* pawn = GetPawn();
-	if (ensure(pawn))
-	{
-		tank = Cast<ATank>(pawn);
-	}
-		
-	return tank;
+	return pawn;
 }
 
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (!ensure(ControlledTank))
+	AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+
+	if (!ensure(ControlledTank) || !ensure(AimingComponent))
 	{
 		return;
 	}
+
+
 
 	if (ensure(PlayerTank))
 	{
@@ -61,9 +50,12 @@ void ATankAIController::Tick(float DeltaTime)
 		MoveToActor(PlayerTank, AcceptanceRadius);
 		
 		FVector playerLocation = PlayerTank->GetActorLocation();
-		ControlledTank->AimAt(playerLocation);
-		ControlledTank->Fire();
+		AimingComponent->AimAt(playerLocation);
 
+		if (AimingComponent->GetFiringState() == EFiringState::Locked)
+		{
+			AimingComponent->Fire();
+		}
 	}
 	
 }

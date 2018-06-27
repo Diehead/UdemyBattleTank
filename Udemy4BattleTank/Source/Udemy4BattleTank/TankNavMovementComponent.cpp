@@ -31,8 +31,6 @@ void UTankNavMovementComponent::RequestDirectMove(const FVector& MoveVelocity, b
 	
 	float intendMove = FVector::DotProduct(TankForward, AIForwardIntention);
 
-	UE_LOG(LogTemp, Warning, TEXT("intendMove =%f"), intendMove);
-
 	IntendMoveForward(intendMove);
 
 

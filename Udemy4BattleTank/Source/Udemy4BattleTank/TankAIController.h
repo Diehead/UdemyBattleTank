@@ -7,7 +7,8 @@
 
 #include "TankAIController.generated.h"
 
-class ATank;
+class UTankAimingComponent;
+
 
 /**
  * 
@@ -24,7 +25,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;	
 
-	ATank* GetPlayerTank() const;
+	APawn* GetPlayerTank() const;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -33,7 +34,10 @@ protected:
 	
 
 private:
-	ATank* GetControlledTank() const;
-	ATank* PlayerTank = nullptr;
-	ATank* ControlledTank = nullptr;
+	APawn* GetControlledTank() const;
+	
+private:
+	APawn* PlayerTank = nullptr;
+	APawn* ControlledTank = nullptr;
+	UTankAimingComponent* AimingComponent = nullptr;
 };

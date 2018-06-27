@@ -6,7 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
 
-class ATank;
+
 class UTankAimingComponent;
 
 /**
@@ -44,5 +44,6 @@ private:
 	bool GetSightRayHitLocation(FVector& outHitLocation) const;
 	
 private:
-	ATank* ControlledTank = nullptr;
+	//ATank* ControlledTank = nullptr;
+	UTankAimingComponent* AimingComponent = nullptr;
 };

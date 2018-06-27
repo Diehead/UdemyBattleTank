@@ -16,19 +16,19 @@ ATank::ATank()
 	
 }
 
-void ATank::BeginPlay()
+/*void ATank::BeginPlay()
 {
 	Super::BeginPlay();
 
 	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
-}
+}*/
 
-void ATank::AimAt(FVector HitLocation)
+/*void ATank::AimAt(FVector HitLocation)
 {
 	if (!ensure(TankAimingComponent)) { return; }
 	
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);	
-}
+}*/
 
 
 /*void ATank::SetBarrelReference(UTankBarrelSMComponent* BarrelToSet)
@@ -47,8 +47,10 @@ void ATank::AimAt(FVector HitLocation)
 	TankAimingComponent = TankAimingComponentToSet;  NEEEEEEEEEEEEEEEEEEEEDED TO BE SET SOMEHOW!!!!!!!!!!!!!!!!!
 }*/
 
-void ATank::Fire()
+/*void ATank::Fire()
 {
+	UE_LOG(LogTemp, Warning, TEXT("AAAAAAAAAAAAAJAJJAJAJAJJJJJJJJJJJJJJJJJJJ"));
+
 	if (!ensure(Barrel))
 	{
 		return;
@@ -63,4 +65,4 @@ void ATank::Fire()
 		LastFireTime = FPlatformTime::Seconds();
 		isReloaded = false;
 	}
-}
+}*/
