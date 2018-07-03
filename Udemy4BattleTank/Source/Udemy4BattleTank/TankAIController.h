@@ -19,8 +19,7 @@ class UDEMY4BATTLETANK_API ATankAIController : public AAIController
 	GENERATED_BODY()
 	
 public:
-
-	float AcceptanceRadius = 3000.f;
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;	
@@ -29,6 +28,9 @@ protected:
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(EditAnywhere, Category="Setup")
+	float AcceptanceRadius = 8000.f;
 
 protected:
 	
