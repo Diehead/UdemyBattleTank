@@ -8,6 +8,8 @@
 
 
 class UProjectileMovementComponent;
+class UParticleSystemComponent;
+class UStaticMeshComponent;
 
 UCLASS()
 class UDEMY4BATTLETANK_API AProjectile : public AActor
@@ -27,6 +29,14 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	void LaunchProjectile(float Speed);
+
+protected:
+	UPROPERTY(VisibleAnywhere, Category = "Component")
+	UStaticMeshComponent* CollisionMesh = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Component")
+	UParticleSystemComponent* LaunchBlast = nullptr;
+
 
 private:
 	UProjectileMovementComponent* ProjectileMovementComponent = nullptr;

@@ -43,7 +43,7 @@ public:
 	EFiringState GetFiringState() const;
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	int GetRoundsLeft() const;
+	int32 GetRoundsLeft() const;
 
 protected:
 	// Called when the game starts
@@ -58,6 +58,12 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBP;
 
+	UPROPERTY(EditAnywhere, Category = "Firing")
+	double ReloadTimeInSeconds = 3;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	int32 RoundsLeft = 3;
+
 private:
 	void MoveBarrelTowards(FVector AimDirection);	
 	bool IsBarrelMoving();
@@ -67,8 +73,5 @@ private:
 	UTankTurretSMComponent* Turret;
 
 	FVector AimDirection;
-
-	double ReloadTimeInSeconds = 3;
-	double LastFireTime = 0;
-	int RoundsLeft = 3;
+	double LastFireTime = 0;	
 };
