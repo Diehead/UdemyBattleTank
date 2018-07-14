@@ -45,6 +45,17 @@ public:
 	UPROPERTY(EditAnywhere, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBP;*/
 
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, 
+	class AController* EventInstigator, AActor* DamageCauser) override;
+	
+	
+
+	UPROPERTY(EditAnywhere, Category = Setup)
+	int32 StartingHealth = 100;
+
+	UPROPERTY(VisibleAnywhere, Category = Setup)
+	int32 CurrentHealth = StartingHealth;
+
 protected:
 /*	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAimingComponent = nullptr;*/
