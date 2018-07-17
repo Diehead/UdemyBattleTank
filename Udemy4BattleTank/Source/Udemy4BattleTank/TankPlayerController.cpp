@@ -2,7 +2,7 @@
 
 #include "TankPlayerController.h"
 #include "Engine/World.h"
-//#include "Tank.h"
+#include "Tank.h"
 #include "Camera/PlayerCameraManager.h"
 #include "TankAimingComponent.h"
 
@@ -18,11 +18,22 @@ void ATankPlayerController::BeginPlay()
 	{
 		FoundAimingComponent(AimingComponent);
 	}
-
-	
-
 }
 
+void ATankPlayerController::SetPawn(APawn* Pawn)
+{
+	Super::SetPawn(Pawn);
+
+	ATank* MyTank = Cast<ATank>(Pawn);
+	if (!ensure(MyTank)) { return; }
+
+	MyTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnTankDeath);
+}
+
+void ATankPlayerController::OnTankDeath()
+{
+	StartSpectatingOnly();
+}
 
 ATank* ATankPlayerController::GetControlledTank() const
 {

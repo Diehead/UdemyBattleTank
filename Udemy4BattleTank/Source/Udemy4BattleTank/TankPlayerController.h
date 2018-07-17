@@ -33,6 +33,8 @@ protected:
 
 	virtual void Tick(float DeltaTime) override;
 	
+	virtual void SetPawn(APawn* Pawn) override;
+
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	ATank* GetControlledTank() const;
 
@@ -42,6 +44,9 @@ protected:
 private:
 	void AimTowardsCrosshair();
 	bool GetSightRayHitLocation(FVector& outHitLocation) const;
+	
+	UFUNCTION()
+	void OnTankDeath();
 	
 private:
 	//ATank* ControlledTank = nullptr;

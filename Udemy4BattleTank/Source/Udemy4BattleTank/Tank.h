@@ -11,6 +11,8 @@ class UTankAimingComponent;
 class UTankTurretSMComponent;
 class AProjectile;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
+
 UCLASS()
 class UDEMY4BATTLETANK_API ATank : public APawn
 {
@@ -19,6 +21,10 @@ class UDEMY4BATTLETANK_API ATank : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ATank();
+
+	FTankDelegate OnDeath;
+
+	virtual void BeginPlay() override;
 
 //	void AimAt(FVector HitLocation);
 	
@@ -54,11 +60,13 @@ public:
 	int32 StartingHealth = 100;
 
 	UPROPERTY(VisibleAnywhere, Category = Setup)
-	int32 CurrentHealth = StartingHealth;
+	int32 CurrentHealth;
 
 protected:
 /*	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAimingComponent = nullptr;*/
+	UFUNCTION(BlueprintPure, Category = Health)
+	float GetCurrentHealth() const;
 
 private:
 /*	UTankBarrelSMComponent* Barrel;
