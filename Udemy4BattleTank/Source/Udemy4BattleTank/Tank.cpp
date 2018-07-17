@@ -36,11 +36,11 @@ float ATank::GetCurrentHealth() const
 	return (float)CurrentHealth / (float)StartingHealth;
 }
 
-void ATank::BeginPlay()
-{
-	Super::BeginPlay();
-	CurrentHealth = StartingHealth;
-}
+	void ATank::BeginPlay()
+	{
+		Super::BeginPlay();
+		CurrentHealth = StartingHealth;
+	}
 
 
 /*void ATank::BeginPlay()

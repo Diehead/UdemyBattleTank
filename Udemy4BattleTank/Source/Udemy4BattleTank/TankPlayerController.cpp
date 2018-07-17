@@ -88,7 +88,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& outHitLocation) cons
 		FVector endLocation = startLocation + (crosshairWorldDir * LineTraceRange);
 		
 		FHitResult outHit;
-		if (GetWorld()->LineTraceSingleByChannel(outHit, startLocation, endLocation, ECollisionChannel::ECC_Visibility))
+		if (GetWorld()->LineTraceSingleByChannel(outHit, startLocation, endLocation, ECollisionChannel::ECC_Camera))
 		{
 			outHitLocation = outHit.Location;
 			return true;
