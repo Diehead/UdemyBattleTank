@@ -25,7 +25,7 @@ void ATankPlayerController::SetPawn(APawn* Pawn)
 	Super::SetPawn(Pawn);
 
 	ATank* MyTank = Cast<ATank>(Pawn);
-	if (!ensure(MyTank)) { return; }
+	if (!MyTank) { return; }
 
 	MyTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnTankDeath);
 }
@@ -57,7 +57,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 
 	AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	
-	if (!ensure(AimingComponent))
+	if (!AimingComponent)
 	{
 		return;
 	}
