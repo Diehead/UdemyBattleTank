@@ -13,6 +13,7 @@ void ATankPlayerController::BeginPlay()
 
 	//ATank* ControlledTank = GetControlledTank();
 	
+	if (!GetPawn()) return;
 	AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (ensure(AimingComponent))
 	{

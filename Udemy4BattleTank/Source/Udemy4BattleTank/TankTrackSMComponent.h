@@ -30,12 +30,10 @@ protected:
 
 private:
 
-	UFUNCTION()
-	void OnCompHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
-
-	void DriveTrack();
-	void ApplySidewaysForce();
+	void DriveTrack(float CurrentThrottle);
+	
 	
 private:	
-	float CurrentThrottle = 0.f;
+
+	TArray<class ASprungWheel*> GetWheels() const;  // contains forward declaration
 };

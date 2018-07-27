@@ -2,7 +2,8 @@
 
 #include "SprungWheel.h"
 #include "Components/StaticMeshComponent.h"
-
+#include "Components/SphereComponent.h"
+#include "Engine/World.h"
 
 
 // Sets default values
@@ -16,13 +17,17 @@ ASprungWheel::ASprungWheel()
 
 	/*Mass = CreateDefaultSubobject<UStaticMeshComponent>(FName("Mass"));	
 	Mass->SetupAttachment(MassWheelConstraint);*/
-
-	Wheel = CreateDefaultSubobject<UStaticMeshComponent>(FName("Wheel"));
-	Wheel->SetupAttachment(MassWheelConstraint);
-
 	
+	Axle = CreateDefaultSubobject<USphereComponent>(FName("Axle"));
+	Axle->SetupAttachment(MassWheelConstraint);
 
+	AxleWheelConstraint = CreateDefaultSubobject<UPhysicsConstraintComponent>(FName("AxleWheelConstraint"));
+	AxleWheelConstraint->SetupAttachment(Axle);
 
+	Wheel = CreateDefaultSubobject<USphereComponent>(FName("Wheel"));
+	Wheel->SetupAttachment(Axle);
+
+	PrimaryActorTick.TickGroup = TG_PostPhysics;
 }
 
 // Called when the game starts or when spawned
@@ -30,22 +35,24 @@ void ASprungWheel::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	Wheel->SetNotifyRigidBodyCollision(true);
+	Wheel->OnComponentHit.AddDynamic(this, &ASprungWheel::OnHit);
+
 	SetupConstraint();
 
-	if (GetAttachParentActor())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Not Null"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Null"));
-	}
+
 }
 
 // Called every frame
 void ASprungWheel::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (GetWorld()->TickGroup == TG_PostPhysics)
+	{
+		TotalMagnitudeThisFame = 0.f;
+
+	}
 
 }
 
@@ -55,5 +62,23 @@ void ASprungWheel::SetupConstraint()
 	UPrimitiveComponent* BodyRoot = Cast<UPrimitiveComponent>(GetAttachParentActor()->GetRootComponent());
 	if (!BodyRoot) return;
 
-	MassWheelConstraint->SetConstrainedComponents(BodyRoot, NAME_None, Wheel, NAME_None);
+	MassWheelConstraint->SetConstrainedComponents(BodyRoot, NAME_None, Axle, NAME_None);
+	AxleWheelConstraint->SetConstrainedComponents(Axle, NAME_None, Wheel, NAME_None);
+}
+
+void ASprungWheel::AddDrivingForce(float ForceMagnitude)
+{
+	TotalMagnitudeThisFame += ForceMagnitude;
+
+}
+
+void ASprungWheel::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
+{
+	ApplyForce();
+}
+
+void ASprungWheel::ApplyForce()
+{
+	Wheel->AddForce(Axle->GetForwardVector() * TotalMagnitudeThisFame);
+
 }
